@@ -10,8 +10,7 @@ env:
     JSON_CONFIG_PATH: Syncogram/config.json
 
 jobs:
-  - run: mkdir craft
-
+  
   build_windows:
     name: Build Windows App
     runs-on: windows-latest
