@@ -127,4 +127,4 @@ jobs:
         tag: "${{ env.json_APP_VERSION }}"
         name: "v${{ env.json_APP_VERSION }}"
         body: "Release Syncogram, ${{ env.json_APP_VERSION }}"
-        artifacts: "artifacts/Syncogram.app.tar.gz"
+        artifacts: "artifacts/MacOS"
