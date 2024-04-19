@@ -46,6 +46,7 @@ jobs:
           --add-binary locales:locales \
           --distpath ../craft;
           cd ../;
+        shell: bash
           
       - name: Archive Windows Application
         run: |
