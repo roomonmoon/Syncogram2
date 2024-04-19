@@ -50,7 +50,7 @@ jobs:
           
       - name: Archive Windows Application
         run: |
-          7z a Syncogram_Windows.zip %CD%\craft\Syncogram.exe
+          7z a Syncogram_Windows.zip craft\Syncogram.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
