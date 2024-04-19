@@ -27,7 +27,8 @@ def merge():
     os.system("git add .")
     os.system(f"git commit -am 'Version {NEW_VERSION}'")
     os.system("git push")
-    os.system("git merge master")
+    os.system("git checkout master")
+    os.system("git merge dev")
 
 
 if choice in yes:
