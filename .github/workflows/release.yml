@@ -44,6 +44,7 @@ jobs:
           --copyright "GPL-3.0" \
           --file-version "${{ env.json_APP_VERSION }}" \
           --add-binary locales:locales \
+          --add-data assets:assets \
           --add-data config.json:. \
           --distpath ../craft;
           cd ../;
@@ -51,7 +52,7 @@ jobs:
           
       - name: Archive Windows Application
         run: |
-          7z a Syncogram_Windows.zip craft\Syncogram.exe
+          7z a Syncogram_Windows.zip $PWD\craft\Syncogram.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
@@ -93,6 +94,7 @@ jobs:
           --copyright "GPL-3.0" \
           --file-version "${{ env.json_APP_VERSION }}" \
           --add-binary locales:locales \
+          --add-data assets:assets \
           --add-data config.json:. \
           --distpath ../craft;
           cd ../;
@@ -141,6 +143,7 @@ jobs:
           --copyright "GPL-3.0" \
           --file-version "${{ env.json_APP_VERSION }}" \
           --add-binary locales:locales \
+          --add-data assets:assets \
           --add-data config.json:. \
           --distpath ../craft;
           cd ../;
