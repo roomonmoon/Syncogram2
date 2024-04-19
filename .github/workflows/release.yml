@@ -10,7 +10,7 @@ env:
     JSON_CONFIG_PATH: Syncogram/config.json
 
 jobs:
-  
+
   build_windows:
     name: Build Windows App
     runs-on: windows-latest
@@ -44,6 +44,7 @@ jobs:
           --copyright "GPL-3.0" \
           --file-version "${{ env.json_APP_VERSION }}" \
           --add-binary locales:locales \
+          --add-data config.json:. \
           --distpath ../craft;
           cd ../;
         shell: bash
@@ -92,6 +93,7 @@ jobs:
           --copyright "GPL-3.0" \
           --file-version "${{ env.json_APP_VERSION }}" \
           --add-binary locales:locales \
+          --add-data config.json:. \
           --distpath ../craft;
           cd ../;
           
@@ -139,6 +141,7 @@ jobs:
           --copyright "GPL-3.0" \
           --file-version "${{ env.json_APP_VERSION }}" \
           --add-binary locales:locales \
+          --add-data config.json:. \
           --distpath ../craft;
           cd ../;
 
