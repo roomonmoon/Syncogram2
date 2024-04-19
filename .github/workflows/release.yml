@@ -79,14 +79,14 @@ jobs:
     #       --icon "./Syncogram/assets/psd/telegram.png" \
       - name: Archive Linux Application
         run: |
-          tar -czvf craft/Syncogram.app.tar.gz -C artifacts MacOS.app
+          tar -czvf Syncogram.app.tar.gz -C craft Syncogram.app
 
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: "MacOS"
-          path: craft/Syncogram.app.tar.gz
+          path: Syncogram.app.tar.gz
 
 
 
