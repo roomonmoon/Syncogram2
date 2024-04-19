@@ -155,7 +155,7 @@ jobs:
   release_project:
     name: Release Application
     runs-on: ubuntu-latest
-    needs: [build_linux]
+    needs: [build_linux, build_macos, build_windows]
 
     steps:
     - name: Clone GitHub Repo
