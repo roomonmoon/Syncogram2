@@ -10,6 +10,7 @@ env:
     JSON_CONFIG_PATH: Syncogram/config.json
 
 jobs:
+  - run: mkdir craft
 
   build_windows:
     name: Build Windows App
@@ -58,6 +59,7 @@ jobs:
           name: "Windows"
           path: Syncogram_Windows.zip
 
+
   build_linux:
     name: Build Linux App
     runs-on: ubuntu-latest
@@ -101,9 +103,8 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "MacOS"
+          name: "Linux"
           path: Syncogram_Linux.tar.gz
-
 
 
   build_macos:
