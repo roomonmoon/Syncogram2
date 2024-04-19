@@ -11,9 +11,46 @@ env:
 
 jobs:
 
+  # build_linux:
+  #   name: Build Linux App
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     # - run: sudo apt --yes update && sudo apt --yes upgrade && sudo apt --yes dist-upgrade
+  #   #   - run: sudo apt-get --yes --allow install libpython3.10-dev
+  #     - name: Clone GitHub Repository
+  #       uses: actions/checkout@v3
+
+  #     - name: Creates Telegram Environments Data
+  #       run: |
+  #         echo -ne "API_ID=${{ secrets.API_ID }}\n" > ${{ env.ENV_FILE_PATH }};
+  #         echo -ne "API_HASH='${{ secrets.API_HASH }}'\n" >> ${{ env.ENV_FILE_PATH }};
+
+  #     - name: JSON to variables
+  #       uses: rgarcia-phi/json-to-variables@v1.1.0
+  #       with:
+  #         filename: ${{ env.JSON_CONFIG_PATH }}
+          
+  #   #   - name: Install Dependencies
+  #       # run: pip install -r requirements.txt
+  #   #   - name: Start Build Application
+  #   #     run: |
+  #   #       flet pack Syncogram/application.py \
+  #   #       --product-name "Syncogram Application" \
+  #   #       --product-version "${{ env.json_APP_VERSION }}" \
+  #   #       --name "Syncogram" \
+  #   #       --icon "./Syncogram/assets/psd/telegram.png" \
+
+  #     - name: Upload Artifact
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: "Linux"
+  #         path: craft/Syncogram
+
+
   build_linux:
-    name: Build Linux App
-    runs-on: ubuntu-latest
+    name: Build MacOS App
+    runs-on: macos-latest
 
     steps:
       # - run: sudo apt --yes update && sudo apt --yes upgrade && sudo apt --yes dist-upgrade
@@ -44,8 +81,11 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "Syncogram_linux"
-          path: craft/Syncogram
+          name: "MacOS"
+          path: craft/Syncogram.app
+
+
+
 
   
   release_project:
@@ -76,10 +116,7 @@ jobs:
 
     - name: Archive Linux Application
       run: |
-        tar -czvf artifacts/syncogram_linux64.tar.gz -C artifacts Syncogram_linux
-
-
-    - run: ls -la ./artifacts && pwd
+        tar -czvf artifacts/syncogram_macos.tar.gz -C artifacts MacOS.app
 
     - name: Create GitHub release
       id: create-new-release
@@ -90,4 +127,4 @@ jobs:
         tag: "${{ env.json_APP_VERSION }}"
         name: "v${{ env.json_APP_VERSION }}"
         body: "Release Syncogram, ${{ env.json_APP_VERSION }}"
-        artifacts: "artifacts/syncogram_linux64.tar.gz"
+        artifacts: "artifacts/syncogram_macos.tar.gz"
