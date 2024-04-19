@@ -11,50 +11,11 @@ env:
 
 jobs:
 
-  # build_linux:
-  #   name: Build Linux App
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     # - run: sudo apt --yes update && sudo apt --yes upgrade && sudo apt --yes dist-upgrade
-  #   #   - run: sudo apt-get --yes --allow install libpython3.10-dev
-  #     - name: Clone GitHub Repository
-  #       uses: actions/checkout@v3
-
-  #     - name: Creates Telegram Environments Data
-  #       run: |
-  #         echo -ne "API_ID=${{ secrets.API_ID }}\n" > ${{ env.ENV_FILE_PATH }};
-  #         echo -ne "API_HASH='${{ secrets.API_HASH }}'\n" >> ${{ env.ENV_FILE_PATH }};
-
-  #     - name: JSON to variables
-  #       uses: rgarcia-phi/json-to-variables@v1.1.0
-  #       with:
-  #         filename: ${{ env.JSON_CONFIG_PATH }}
-          
-  #   #   - name: Install Dependencies
-  #       # run: pip install -r requirements.txt
-  #   #   - name: Start Build Application
-  #   #     run: |
-  #   #       flet pack Syncogram/application.py \
-  #   #       --product-name "Syncogram Application" \
-  #   #       --product-version "${{ env.json_APP_VERSION }}" \
-  #   #       --name "Syncogram" \
-  #   #       --icon "./Syncogram/assets/psd/telegram.png" \
-
-  #     - name: Upload Artifact
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: "Linux"
-  #         path: craft/Syncogram
-
-
-  build_linux:
-    name: Build MacOS App
-    runs-on: macos-latest
+  build_windows:
+    name: Build Windows App
+    runs-on: windows-latest
 
     steps:
-      # - run: sudo apt --yes update && sudo apt --yes upgrade && sudo apt --yes dist-upgrade
-    #   - run: sudo apt-get --yes --allow install libpython3.10-dev
       - name: Clone GitHub Repository
         uses: actions/checkout@v3
 
@@ -68,28 +29,127 @@ jobs:
         with:
           filename: ${{ env.JSON_CONFIG_PATH }}
           
-    #   - name: Install Dependencies
-        # run: pip install -r requirements.txt
-    #   - name: Start Build Application
-    #     run: |
-    #       flet pack Syncogram/application.py \
-    #       --product-name "Syncogram Application" \
-    #       --product-version "${{ env.json_APP_VERSION }}" \
-    #       --name "Syncogram" \
-    #       --icon "./Syncogram/assets/psd/telegram.png" \
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start Build Application
+        run: |
+          cd Syncogram;
+          flet pack application.py \
+          --name "Syncogram" \
+          --icon "assets/logo/icns/duck512x512.icns" \
+          --product-name "Syncogram Application" \
+          --product-version "${{ env.json_APP_VERSION }}" \
+          --company-name "Syncogram Application" \
+          --copyright "GPL-3.0" \
+          --file-version "${{ env.json_APP_VERSION }}" \
+          --add-binary locales:locales \
+          --dispatch ../craft;
+          cd ../;
+          
+      - name: Archive Windows Application
+        run: |
+          7z a Syncogram_Windows.zip %CD%\craft\Syncogram.exe
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Windows"
+          path: Syncogram_Windows.zip
+
+  build_linux:
+    name: Build Linux App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone GitHub Repository
+        uses: actions/checkout@v3
+
+      - name: Creates Telegram Environments Data
+        run: |
+          echo -ne "API_ID=${{ secrets.API_ID }}\n" > ${{ env.ENV_FILE_PATH }};
+          echo -ne "API_HASH='${{ secrets.API_HASH }}'\n" >> ${{ env.ENV_FILE_PATH }};
+
+      - name: JSON to variables
+        uses: rgarcia-phi/json-to-variables@v1.1.0
+        with:
+          filename: ${{ env.JSON_CONFIG_PATH }}
+          
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start Build Application
+        run: |
+          cd Syncogram;
+          flet pack application.py \
+          --name "Syncogram" \
+          --icon "assets/logo/icns/duck512x512.icns" \
+          --product-name "Syncogram Application" \
+          --product-version "${{ env.json_APP_VERSION }}" \
+          --company-name "Syncogram Application" \
+          --copyright "GPL-3.0" \
+          --file-version "${{ env.json_APP_VERSION }}" \
+          --add-binary locales:locales \
+          --dispatch ../craft;
+          cd ../;
+          
       - name: Archive Linux Application
         run: |
-          tar -czvf Syncogram.app.tar.gz -C craft Syncogram.app
-
+          tar -czvf Syncogram_Linux.tar.gz -C craft Syncogram
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: "MacOS"
-          path: Syncogram.app.tar.gz
+          path: Syncogram_Linux.tar.gz
 
 
 
+  build_macos:
+    name: Build MacOS App
+    runs-on: macos-latest
+
+    steps:
+      - name: Clone GitHub Repository
+        uses: actions/checkout@v3
+
+      - name: Creates Telegram Environments Data
+        run: |
+          echo -ne "API_ID=${{ secrets.API_ID }}\n" > ${{ env.ENV_FILE_PATH }};
+          echo -ne "API_HASH='${{ secrets.API_HASH }}'\n" >> ${{ env.ENV_FILE_PATH }};
+
+      - name: JSON to variables
+        uses: rgarcia-phi/json-to-variables@v1.1.0
+        with:
+          filename: ${{ env.JSON_CONFIG_PATH }}
+          
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start Build Application
+        run: |
+          cd Syncogram;
+          flet pack application.py \
+          --name "Syncogram" \
+          --icon "assets/logo/icns/duck512x512.icns" \
+          --product-name "Syncogram Application" \
+          --product-version "${{ env.json_APP_VERSION }}" \
+          --company-name "Syncogram Application" \
+          --copyright "GPL-3.0" \
+          --file-version "${{ env.json_APP_VERSION }}" \
+          --add-binary locales:locales \
+          --dispatch ../craft;
+          cd ../;
+
+      - name: Archive MacOS Application
+        run: |
+          tar -czvf Syncogram_MacOS.tar.gz -C craft Syncogram.app
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "MacOS"
+          path: Syncogram_MacOS.tar.gz
 
   
   release_project:
@@ -127,4 +187,4 @@ jobs:
         tag: "${{ env.json_APP_VERSION }}"
         name: "v${{ env.json_APP_VERSION }}"
         body: "Release Syncogram, ${{ env.json_APP_VERSION }}"
-        artifacts: "artifacts/MacOS/Syncogram.app.tar.gz"
+        artifacts: "artifacts/MacOS/Syncogram_MacOS.tar.gz, artifacts/Linux/Syncogram_Linux.tar.gz, artifacts/Windows/Syncogram_Windows.zip"
