@@ -77,12 +77,16 @@ jobs:
     #       --product-version "${{ env.json_APP_VERSION }}" \
     #       --name "Syncogram" \
     #       --icon "./Syncogram/assets/psd/telegram.png" \
+      - name: Archive Linux Application
+        run: |
+          tar -czvf craft/Syncogram.app.tar.gz -C artifacts MacOS.app
+
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: "MacOS"
-          path: craft/Syncogram.app
+          path: craft/Syncogram.app.tar.gz
 
 
 
@@ -114,10 +118,6 @@ jobs:
       run: ls -R && pwd
       working-directory: artifacts
 
-    - name: Archive Linux Application
-      run: |
-        tar -czvf artifacts/syncogram_macos.tar.gz -C artifacts MacOS.app
-
     - name: Create GitHub release
       id: create-new-release
       uses: ncipollo/release-action@v1
@@ -127,4 +127,4 @@ jobs:
         tag: "${{ env.json_APP_VERSION }}"
         name: "v${{ env.json_APP_VERSION }}"
         body: "Release Syncogram, ${{ env.json_APP_VERSION }}"
-        artifacts: "artifacts/syncogram_macos.tar.gz"
+        artifacts: "artifacts/Syncogram.app.tar.gz"
