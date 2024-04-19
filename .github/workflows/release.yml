@@ -83,20 +83,11 @@ jobs:
 
     - name: Create GitHub release
       id: create-new-release
-      uses: actions/create-release@v1
+      uses: ncipollo/release-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: "${{ env.json_APP_VERSION }}"
-        release_name: "v${{ env.json_APP_VERSION }}"
+        tag: "${{ env.json_APP_VERSION }}"
+        name: "v${{ env.json_APP_VERSION }}"
         body: "Release Syncogram, ${{ env.json_APP_VERSION }}"
-
-    - name: Upload Linux Release
-      uses: actions/upload-release-asset@v1.0.2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
-        asset_path: "./artifacts/syncogram_linux64.tar.gz"
-        asset_name: "Syncogram-Linux-Binary.tar.gz"
-        asset_content_type: application/gzip
+        artifacts: "artifacts/syncogram_linux64.tar.gz"
