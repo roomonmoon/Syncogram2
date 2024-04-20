@@ -21,8 +21,8 @@ jobs:
 
       - name: Creates Telegram Environments Data
         run: |
-          echo -ne "API_ID=${{ secrets.API_ID }}\n" > ${{ env.ENV_FILE_PATH }};
-          echo -ne "API_HASH='${{ secrets.API_HASH }}'\n" >> ${{ env.ENV_FILE_PATH }};
+          echo "API_ID=${{ secrets.API_ID }}" > ${{ env.ENV_FILE_PATH }};
+          echo "API_HASH='${{ secrets.API_HASH }}'" >> ${{ env.ENV_FILE_PATH }};
 
       - name: JSON to variables
         uses: rgarcia-phi/json-to-variables@v1.1.0
